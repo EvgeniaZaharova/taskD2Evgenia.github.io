@@ -1,0 +1,34 @@
+#calendar {
+    width: 40vw;
+    height: 75vh;
+    text-align:center;
+    border: 1px solid #333
+}
+
+#calendar .top div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#calendar div {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    height: 50px;
+}
+
+#calendar div:not(.labels) span:hover {
+    background: green;
+}
+
+#calendar div span:nth-child(6):not(.gray), #calendar div span:nth-child(7):not(.gray) {
+    color: #ED254E
+}
+
+#calendar .current {
+    background: red;
+}
+
+#calendar .gray {
+    color: #BFB5AF;
+}
