@@ -5,8 +5,8 @@ let calendar = $('#calendar')
 let monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 
 let current = new Date()
-let currentYear = current.getFullYear();
-let currentMonth = current.getMonth();
+let currentYear = current.getFullYear(); //год по местному времени
+let currentMonth = current.getMonth(); // месяц по местному времени
 
 renderCalendar(current.getMonth(), current.getFullYear())
 
@@ -17,37 +17,41 @@ function renderCalendar(month, year) {
 
 	let daysInMonth = getDaysInMonth(month, year)
 	let firstDay = new Date(year, month).getDay()
-	if (firstDay == 0) firstDay = 7
-
+	if (firstDay == 0) firstDay = 7 // задаем размер календаря в 7 ячеек
+	
+	// день недели, с которого начинается текущий месяц
 	let currentMonthStartingDay = new Date(currentYear, currentMonth).getDay()
 
+	// количество дней в предыдущем месяце
 	let daysInPreviousMonth = getDaysInMonth(month - 1, year)
+	// высчитываем с какого дня начать отсчёт	
 	let previousMonthStartingDay = 0;
 	if (currentMonthStartingDay == 0) {
 		previousMonthStartingDay = daysInPreviousMonth - 5
 	} else {
 		previousMonthStartingDay = daysInPreviousMonth - currentMonthStartingDay + 2
-	}
+	} //страницы календаря, без начальной
 
 	let counter = 1;
 	let nextMonth = 1;
 	let date = 1
-
+	// создание строки
 	for (let row = 0; row < 7; row++) {
-		let i = $(`<div></div>`).appendTo('#calendarTable')
-
+		let i = $(`<div></div>`).appendTo('#calendarTable') // фон актиных ячеек
+		// добавление ячейки
 		for (let cell = 0; cell < 7; cell++) {
 			if (row === 0 && cell < firstDay - 1) {
 				i.append(`<span class="gray">${previousMonthStartingDay}</span>`)
 				previousMonthStartingDay++
-
+			// firstDay ->
 			}
 			else if (date > getDaysInMonth(month, year)) {
 				i.append(`<span class="gray">${nextMonth++}</span>`)
 			}
 			else {
 				if (date === current.getDate() && month === current.getMonth() && year === current.getFullYear()) {
-					i.append(`<span class="current" onclick="addEvent(${date}, ${currentMonth}, ${currentYear})">${date}</span>`)
+					i.append(`<span class="current" onclick="addEvent(${date}, ${currentMonth}, ${currentYear})">${date}</span>`) 
+					//указание и закрашивание нынешней даты
 				} else {
 					i.append(`<span onclick="addEvent(${date}, ${currentMonth}, ${currentYear})">${date}</span>`)
 				}
@@ -55,6 +59,7 @@ function renderCalendar(month, year) {
 				counter++;
 			}
 		}
+		// проверка
 		if (counter > getDaysInMonth(month, year))
 			break;
 	}
